@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable{
 									// y responder a los eventos
 	
 
-	// Establecemos la posicipon predeterminada del jugador
+	// Establecemos la posición predeterminada del jugador
 	int playerX = 100;
 	int playerY = 100;
 	int playerSpeed = 4;
@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable{
 			
 			//2. DRAW: Dibuja en la pantalla con la información actualizada
 			repaint();
-			
+
 			try {
 				double remainingTime = nextDrawTime - System.nanoTime(); 	// El tiempo restante para la proxima actualización
 				remainingTime /= 1000000; 									// Convertir nanosegundos a microsegundos para el Thread.sleep
@@ -94,6 +94,7 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	public void update() {
 		
+		// Actualiza el movimiento
 		if (keyH.upPressed) {
 			playerY -= playerSpeed;
 			
