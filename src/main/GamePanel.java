@@ -54,22 +54,23 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		while(gameThread != null) {
 			
-			double drawInterval = 1000000000/FPS; //0.01666 segundos por cada dibujo
+			double drawInterval = 1000000000/FPS; //0.01666 segundos por cada dibujo para generar 60 FPS
 			
-			double nextDrawTime = System.nanoTime() + drawInterval;
+			double nextDrawTime = System.nanoTime() + drawInterval; //El próximo momento en el que se actualice la pantalla es igual al 
+																	//tiempo actual más el intervalo de actualización
 			
-			//1. UPDATE: Actualiza información tal como posicción del personaje
+			//1. UPDATE: Actualiza información tal como laa posición del personaje
 			update();
 			
 			//2. DRAW: Dibuja en la pantalla con la información actualizada
 			repaint();
 			
 			try {
-				double remainingTime = nextDrawTime - System.nanoTime(); 
+				double remainingTime = nextDrawTime - System.nanoTime(); //El tiempo restante para la proxima actualización
 				remainingTime /= 1000000; //Convertir nanosegundos a microsegundos para el Thread.sleep
 				
 				if(remainingTime < 0 ) {
-					remainingTime = 0;
+					remainingTime = 0; //Si la resta es negativa, significa que el momento de dibujo ya pasó, se establece en 0 el tiempo restante.
 				}
 				
 				Thread.sleep((long)remainingTime);
