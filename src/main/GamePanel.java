@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import javax.swing.JPanel;
+import entity.Player;
 
 public class GamePanel extends JPanel implements Runnable{
 	
@@ -14,7 +14,7 @@ public class GamePanel extends JPanel implements Runnable{
 	final int originalTileSize = 16; 					// 16x16 tile
 	final int scale = 3;
 	
-	final int tileSize = originalTileSize * scale; 		// 48x48 tile 
+	public final int tileSize = originalTileSize * scale; 		// 48x48 tile 
 	final int maxScreenCol = 16;
 	final int maxScreenRow = 12;
 	final int screenWidth = tileSize * maxScreenCol;	// 768 px
@@ -25,14 +25,10 @@ public class GamePanel extends JPanel implements Runnable{
 
 	KeyHandler keyH = new KeyHandler(); 				// Instanciamos el controlador de teclado
 	
-	Thread gameThread; 				// Thread es el hilo especial de Java Swing que se encarga exclusivamente de dibujar interfaz gráfica 
-									// y responder a los eventos
-	
+	Thread gameThread; 									// Thread es el hilo especial de Java Swing que se encarga exclusivamente de 
+														// dibujar interfaz gráfica y responder a los eventos
+	Player player = new Player(this,keyH);				// Instanciamos al jugador
 
-	// Establecemos la posición predeterminada del jugador
-	int playerX = 100;
-	int playerY = 100;
-	int playerSpeed = 4;
 	
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // Se establace el tamaño de la pantalla con las dimensiones establecidas
@@ -56,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		while(gameThread != null) {
 			
-			double drawInterval = 1000000000/FPS; // 0.01666 segundos por cada dibujo para generar 60 FPS
+			double drawInterval = 1000000000/FPS; 					// 0.01666 segundos por cada dibujo para generar 60 FPS
 			
 			double nextDrawTime = System.nanoTime() + drawInterval; // El próximo momento en el que se actualice la pantalla es igual al 
 																	// tiempo actual más el intervalo de actualización
@@ -94,33 +90,19 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	public void update() {
 		
-		// Actualiza el movimiento
-		if (keyH.upPressed) {
-			playerY -= playerSpeed;
-			
-		} else if (keyH.downPressed) {
-			playerY += playerSpeed;
-			
-		} else if (keyH.leftPressed) {
-			playerX -= playerSpeed;
-			
-		} else if (keyH.rightPressed) {
-			playerX += playerSpeed;
-			
-		}
+		player.update(); // Actualizamos al jugador desde su propia clase
 		
 	}
 	
 	public void paintComponent(Graphics g) {
 		
-		super.paintComponent(g); 							// Ya que GamePanel es una subclase de Jpanel, utilizamos el método de pintar 
-															// de la superclase JPanel
+		super.paintComponent(g); 				// Ya que GamePanel es una subclase de Jpanel, utilizamos el método de pintar 
+												// de la superclase JPanel
 		
 		Graphics2D g2 = (Graphics2D)g;
+
+		player.draw(g2); // Dibujamos al jugador desde su propia clase
 		
-		// Dibujamos al jugador en la pantalla
-		g2.setColor(Color.white);
-		g2.fillRect(playerX, playerY, tileSize, tileSize);
 		g2.dispose();
 		
 	}
