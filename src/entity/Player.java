@@ -4,6 +4,10 @@ import main.KeyHandler;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import main.GamePanel;
 
 public class Player extends Entity {
@@ -24,6 +28,26 @@ public class Player extends Entity {
         x = 100;
         y = 100;
         speed = 4;
+    }
+
+   public void getPlayerImage(){
+
+        try{
+
+            up1 = ImageIO.read(getClass().getResourceAsStream("/player/FrogBackside1"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/player/FrogBackside2"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/player/FrogFrontside1"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/player/FrogFrontside2"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/player/FrogLeftside1"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/player/FrogLeftside2"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/player/FrogRightside1"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/player/FrogRightside2"));
+
+
+
+        } catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void update(){
