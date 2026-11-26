@@ -1,11 +1,3 @@
-/**
- * 
- */
-/**
- * 
- */
-module ProyectoIntegrador {
-	
-	requires java.desktop;
-	
+﻿module ProyectoIntegrador {
+    requires java.desktop;
 }
